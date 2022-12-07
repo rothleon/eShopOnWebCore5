@@ -9,5 +9,8 @@
         public string PictureUri { get; set; }
         public int CatalogTypeId { get; set; }
         public int CatalogBrandId { get; set; }
+
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+        public int CatalogMaterialId { get; set; }
     }
 }

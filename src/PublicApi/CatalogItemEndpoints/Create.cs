@@ -46,7 +46,7 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints
                 throw new DuplicateException($"A catalogItem with name {request.Name} already exists");
             }
 
-            var newItem = new CatalogItem(request.CatalogTypeId, request.CatalogBrandId, request.Description, request.Name, request.Price, request.PictureUri);
+            var newItem = new CatalogItem(request.CatalogTypeId, request.CatalogBrandId, request.CatalogMaterialId, request.Description, request.Name, request.Price, request.PictureUri);
             newItem = await _itemRepository.AddAsync(newItem, cancellationToken);
 
             if (newItem.Id != 0)
@@ -64,6 +64,10 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints
                 Id = newItem.Id,
                 CatalogBrandId = newItem.CatalogBrandId,
                 CatalogTypeId = newItem.CatalogTypeId,
+
+                //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+                CatalogMaterialId = newItem.CatalogMaterialId,
+
                 Description = newItem.Description,
                 Name = newItem.Name,
                 PictureUri = _uriComposer.ComposePicUri(newItem.PictureUri),

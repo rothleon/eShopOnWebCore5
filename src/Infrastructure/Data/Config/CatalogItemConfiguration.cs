@@ -32,6 +32,11 @@ namespace Microsoft.eShopWeb.Infrastructure.Data.Config
             builder.HasOne(ci => ci.CatalogType)
                 .WithMany()
                 .HasForeignKey(ci => ci.CatalogTypeId);
+
+            //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+            builder.HasOne(ci => ci.CatalogMaterial)
+               .WithMany()
+               .HasForeignKey(ci => ci.CatalogMaterialId);
         }
     }
 }

@@ -21,6 +21,10 @@ namespace Microsoft.eShopWeb.Web.Services
         private readonly IRepository<CatalogItem> _itemRepository;
         private readonly IRepository<CatalogBrand> _brandRepository;
         private readonly IRepository<CatalogType> _typeRepository;
+
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+        private readonly IRepository<CatalogMaterial> _materialRepository;
+        
         private readonly IUriComposer _uriComposer;
 
         public CatalogViewModelService(
@@ -28,22 +32,27 @@ namespace Microsoft.eShopWeb.Web.Services
             IRepository<CatalogItem> itemRepository,
             IRepository<CatalogBrand> brandRepository,
             IRepository<CatalogType> typeRepository,
+
+            //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+            IRepository<CatalogMaterial> materialRepository,
+
             IUriComposer uriComposer)
         {
             _logger = loggerFactory.CreateLogger<CatalogViewModelService>();
             _itemRepository = itemRepository;
             _brandRepository = brandRepository;
             _typeRepository = typeRepository;
+            _materialRepository = materialRepository;
             _uriComposer = uriComposer;
         }
 
-        public async Task<CatalogIndexViewModel> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId)
+        public async Task<CatalogIndexViewModel> GetCatalogItems(int pageIndex, int itemsPage, int? brandId, int? typeId, int? materialId)
         {
             _logger.LogInformation("GetCatalogItems called.");
 
-            var filterSpecification = new CatalogFilterSpecification(brandId, typeId);
+            var filterSpecification = new CatalogFilterSpecification(brandId, typeId, materialId);
             var filterPaginatedSpecification =
-                new CatalogFilterPaginatedSpecification(itemsPage * pageIndex, itemsPage, brandId, typeId);
+                new CatalogFilterPaginatedSpecification(itemsPage * pageIndex, itemsPage, brandId, typeId, materialId);
 
             // the implementation below using ForEach and Count. We need a List.
             var itemsOnPage = await _itemRepository.ListAsync(filterPaginatedSpecification);
@@ -56,12 +65,24 @@ namespace Microsoft.eShopWeb.Web.Services
                     Id = i.Id,
                     Name = i.Name,
                     PictureUri = _uriComposer.ComposePicUri(i.PictureUri),
-                    Price = i.Price
+                    Price = i.Price,
+                    Material = _materialRepository.GetByIdAsync(i.CatalogMaterialId).Result.Material,
+                    
+
                 }).ToList(),
+               
                 Brands = (await GetBrands()).ToList(),
                 Types = (await GetTypes()).ToList(),
+
+                //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+                Materials = (await GetMaterials()).ToList(),
+
                 BrandFilterApplied = brandId ?? 0,
                 TypesFilterApplied = typeId ?? 0,
+
+                //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+                MaterialsFilterApplied = materialId ?? 0,
+
                 PaginationInfo = new PaginationInfoViewModel()
                 {
                     ActualPage = pageIndex,
@@ -100,6 +121,23 @@ namespace Microsoft.eShopWeb.Web.Services
 
             var items = types
                 .Select(type => new SelectListItem() { Value = type.Id.ToString(), Text = type.Type })
+                .OrderBy(t => t.Text)
+                .ToList();
+
+            var allItem = new SelectListItem() { Value = null, Text = "All", Selected = true };
+            items.Insert(0, allItem);
+
+            return items;
+        }
+
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+        public async Task<IEnumerable<SelectListItem>> GetMaterials()
+        {
+            _logger.LogInformation("GetMaterials called.");
+            var materials = await _materialRepository.ListAsync();
+
+            var items = materials
+                .Select(material => new SelectListItem() { Value = material.Id.ToString(), Text = material.Material })
                 .OrderBy(t => t.Text)
                 .ToList();
 

@@ -40,6 +40,10 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints
                 Id = item.Id,
                 CatalogBrandId = item.CatalogBrandId,
                 CatalogTypeId = item.CatalogTypeId,
+
+                //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+                CatalogMaterialId = item.CatalogMaterialId,
+
                 Description = item.Description,
                 Name = item.Name,
                 PictureUri = _uriComposer.ComposePicUri(item.PictureUri),

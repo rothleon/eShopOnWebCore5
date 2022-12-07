@@ -40,7 +40,10 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints
 
             existingItem.UpdateDetails(request.Name, request.Description, request.Price);
             existingItem.UpdateBrand(request.CatalogBrandId);
-            existingItem.UpdateType(request.CatalogTypeId);            
+            existingItem.UpdateType(request.CatalogTypeId);
+
+            //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+            existingItem.UpdateMaterial(request.CatalogMaterialId);
 
             await _itemRepository.UpdateAsync(existingItem, cancellationToken);
 
@@ -49,6 +52,7 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints
                 Id = existingItem.Id,
                 CatalogBrandId = existingItem.CatalogBrandId,
                 CatalogTypeId = existingItem.CatalogTypeId,
+                CatalogMaterialId = existingItem.CatalogMaterialId,
                 Description = existingItem.Description,
                 Name = existingItem.Name,
                 PictureUri = _uriComposer.ComposePicUri(existingItem.PictureUri),

@@ -9,6 +9,8 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
 {
     public class CatalogContextSeed
     {
+        private static List<CatalogMaterial> materials = new List<CatalogMaterial>();
+
         public static async Task SeedAsync(CatalogContext catalogContext,
             ILoggerFactory loggerFactory, int retry = 0)
         {
@@ -36,6 +38,15 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
                     await catalogContext.SaveChangesAsync();
                 }
 
+                //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+                if (!await catalogContext.CatalogMaterials.AnyAsync())
+                {
+                    await catalogContext.CatalogMaterials.AddRangeAsync(
+                        GetPreconfiguredCatalogMaterials());
+
+                    await catalogContext.SaveChangesAsync();
+                }
+
                 if (!await catalogContext.CatalogItems.AnyAsync())
                 {
                     await catalogContext.CatalogItems.AddRangeAsync(
@@ -57,7 +68,6 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
         }
 
         //Sprint 1 - Replace the items in the catalog with items from another vendor. - Leon Roth
-
         static IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands()
         {
             return new List<CatalogBrand>
@@ -85,8 +95,6 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
         */
 
         //Sprint 1 - Replace the items in the catalog with items from another vendor. - Leon Roth
-
-
         static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes()
         {
             return new List<CatalogType>
@@ -111,24 +119,64 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
         }
         */
 
-        //Sprint 1 - Replace the items in the catalog with items from another vendor. - Leon Roth
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+        static IEnumerable<CatalogMaterial> GetPreconfiguredCatalogMaterials()
+        {
+            materials.Clear();
+            materials.Add(new CatalogMaterial("Wood"));
+            materials.Add(new CatalogMaterial("Glass"));
+            materials.Add(new CatalogMaterial("Plastic"));
+            materials.Add(new CatalogMaterial("Cotton"));
+            materials.Add(new CatalogMaterial("Mixed"));
 
+            return materials;
+            /*
+            return new List<CatalogMaterial>
+            {
+                new("Wood"),
+                new("Glass"),
+                new("Plastic"),
+                new("Cotton"),
+                new("Mixed")
+            };
+            */
+        }
+
+        //Sprint 1 - Replace the items in the catalog with items from another vendor. - Leon Roth
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
         static IEnumerable<CatalogItem> GetPreconfiguredItems()
         {
             return new List<CatalogItem>
             {
-                new(1,1, "Floral Bear Tumbler", "Floral Bear Tumbler", 29.99M,  "http://catalogbaseurltobereplaced/images/products/floralbeartumbler.png"),
-                new(3,1, "Wood Black Bear Ornament", "Wood Black Bear Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/blackbearornament.png"),
-                new(4,1, "Black Bear Plush", "Black Bear Plush", 24.99M,  "http://catalogbaseurltobereplaced/images/products/blackbearplush.png"),
-                new(2,2, "Adult Pudu T-shirt", "Adult Pudu T-shirt", 24.99M, "http://catalogbaseurltobereplaced/images/products/puduadultshirt.png"),
-                new(4,2, "Fawn Plush", "Fawn Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/fawnplush.png"),
-                new(3,3, "Wood Giraffe Ornament", "Wood Giraffe Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/giraffeornament.png"),
-                new(2,3, "Giraffe Umbrella Hat", "Giraffe Umbrella Hat",  9.99M, "http://catalogbaseurltobereplaced/images/products/giraffeumbrellahat.png"),
-                new(4,3, "Safari Giraffe Plush", "Safari Giraffe Plush", 14.99M, "http://catalogbaseurltobereplaced/images/products/safarigiraffeplush.png"),
-                new(4,4, "Gorilla Mom And Baby Plush", "Gorilla Mom And Baby Plush", 36.99M, "http://catalogbaseurltobereplaced/images/products/gorillamomandbabyplush.png"),
-                new(1,4, "Gorilla Shot Glass", "Gorilla Shot Glass", 8.99M, "http://catalogbaseurltobereplaced/images/products/gorillashotglass.png"),
-                new(3,5, "Wood Sloth Ornament", "Wood Sloth Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/slothornament.png"),
-                new(4,5, "Hanging Sloth Plush", "Hanging Sloth Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/hangingslothplush.png")
+                /*
+                new(1,1,3, "Floral Bear Tumbler", "Floral Bear Tumbler", 29.99M,  "http://catalogbaseurltobereplaced/images/products/floralbeartumbler.png",materials[2]),
+                new(3,1,1, "Wood Black Bear Ornament", "Wood Black Bear Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/blackbearornament.png", materials[0] ),
+                new(4,1,5, "Black Bear Plush", "Black Bear Plush", 24.99M,  "http://catalogbaseurltobereplaced/images/products/blackbearplush.png", materials[4]),
+                new(2,2,4, "Adult Pudu T-shirt", "Adult Pudu T-shirt", 24.99M, "http://catalogbaseurltobereplaced/images/products/puduadultshirt.png", materials[3]),
+                new(4,2,5, "Fawn Plush", "Fawn Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/fawnplush.png", materials[4]),
+                new(3,3,1, "Wood Giraffe Ornament", "Wood Giraffe Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/giraffeornament.png", materials[0]),
+                new(2,3,5, "Giraffe Umbrella Hat", "Giraffe Umbrella Hat",  9.99M, "http://catalogbaseurltobereplaced/images/products/giraffeumbrellahat.png", materials[4]),
+                new(4,3,5, "Safari Giraffe Plush", "Safari Giraffe Plush", 14.99M, "http://catalogbaseurltobereplaced/images/products/safarigiraffeplush.png", materials[4]),
+                new(4,4,5, "Gorilla Mom And Baby Plush", "Gorilla Mom And Baby Plush", 36.99M, "http://catalogbaseurltobereplaced/images/products/gorillamomandbabyplush.png", materials[4]),
+                new(1,4,2, "Gorilla Shot Glass", "Gorilla Shot Glass", 8.99M, "http://catalogbaseurltobereplaced/images/products/gorillashotglass.png", materials[1]),
+                new(3,5,1, "Wood Sloth Ornament", "Wood Sloth Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/slothornament.png", materials[0]),
+                new(4,5,5, "Hanging Sloth Plush", "Hanging Sloth Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/hangingslothplush.png", materials[4])
+                */
+                
+                new(1,1,3, "Floral Bear Tumbler", "Floral Bear Tumbler", 29.99M,  "http://catalogbaseurltobereplaced/images/products/floralbeartumbler.png"),
+                new(3,1,1, "Wood Black Bear Ornament", "Wood Black Bear Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/blackbearornament.png"),
+                new(4,1,5, "Black Bear Plush", "Black Bear Plush", 24.99M,  "http://catalogbaseurltobereplaced/images/products/blackbearplush.png"),
+                new(2,2,4, "Adult Pudu T-shirt", "Adult Pudu T-shirt", 24.99M, "http://catalogbaseurltobereplaced/images/products/puduadultshirt.png"),
+                new(4,2,5, "Fawn Plush", "Fawn Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/fawnplush.png"),
+                new(3,3,1, "Wood Giraffe Ornament", "Wood Giraffe Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/giraffeornament.png"),
+                new(2,3,5, "Giraffe Umbrella Hat", "Giraffe Umbrella Hat",  9.99M, "http://catalogbaseurltobereplaced/images/products/giraffeumbrellahat.png"),
+                new(4,3,5, "Safari Giraffe Plush", "Safari Giraffe Plush", 14.99M, "http://catalogbaseurltobereplaced/images/products/safarigiraffeplush.png"),
+                new(4,4,5, "Gorilla Mom And Baby Plush", "Gorilla Mom And Baby Plush", 36.99M, "http://catalogbaseurltobereplaced/images/products/gorillamomandbabyplush.png"),
+                new(1,4,2, "Gorilla Shot Glass", "Gorilla Shot Glass", 8.99M, "http://catalogbaseurltobereplaced/images/products/gorillashotglass.png"),
+                new(3,5,1, "Wood Sloth Ornament", "Wood Sloth Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/slothornament.png"),
+                new(4,5,5, "Hanging Sloth Plush", "Hanging Sloth Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/hangingslothplush.png")
+                
+                
             };
         }
 

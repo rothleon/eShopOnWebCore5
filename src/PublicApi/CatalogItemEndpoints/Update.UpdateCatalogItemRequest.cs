@@ -10,6 +10,11 @@ namespace Microsoft.eShopWeb.PublicApi.CatalogItemEndpoints
         public int CatalogBrandId { get; set; }
         [Range(1, 10000)]
         public int CatalogTypeId { get; set; }
+
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+        [Range(1, 10000)]
+        public int CatalogMaterialId { get; set; }
+
         [Required]
         public string Description { get; set; }
         [Required]

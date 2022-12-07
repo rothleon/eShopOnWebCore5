@@ -15,8 +15,16 @@ namespace Microsoft.eShopWeb.ApplicationCore.Entities
         public int CatalogBrandId { get; private set; }
         public CatalogBrand CatalogBrand { get; private set; }
 
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+        public int CatalogMaterialId { get; private set; }
+        public CatalogMaterial CatalogMaterial { get; private set; }
+
         public CatalogItem(int catalogTypeId,
             int catalogBrandId,
+         
+            //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+            int catalogMaterialId,
+            
             string description,
             string name,
             decimal price,
@@ -24,10 +32,40 @@ namespace Microsoft.eShopWeb.ApplicationCore.Entities
         {
             CatalogTypeId = catalogTypeId;
             CatalogBrandId = catalogBrandId;
+
+            //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+            CatalogMaterialId = catalogMaterialId;
+
             Description = description;
             Name = name;
             Price = price;
             PictureUri = pictureUri;
+        }
+
+        //Brute force material assignment
+        public CatalogItem(int catalogTypeId,
+            int catalogBrandId,
+
+            //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+            int catalogMaterialId,
+
+            string description,
+            string name,
+            decimal price,
+            string pictureUri,
+            CatalogMaterial catalogMaterial)
+        {
+            CatalogTypeId = catalogTypeId;
+            CatalogBrandId = catalogBrandId;
+
+            //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+            CatalogMaterialId = catalogMaterialId;
+
+            Description = description;
+            Name = name;
+            Price = price;
+            PictureUri = pictureUri;
+            CatalogMaterial = catalogMaterial;
         }
 
         public void UpdateDetails(string name, string description, decimal price)
@@ -45,6 +83,13 @@ namespace Microsoft.eShopWeb.ApplicationCore.Entities
         {
             Guard.Against.Zero(catalogBrandId, nameof(catalogBrandId));
             CatalogBrandId = catalogBrandId;
+        }
+
+        //Sprint 1 - Add a new attribute, like color or gender, to catalog items. - Leon Roth
+        public void UpdateMaterial(int catalogMaterialId)
+        {
+            Guard.Against.Zero(catalogMaterialId, nameof(catalogMaterialId));
+            CatalogMaterialId = catalogMaterialId;
         }
 
         public void UpdateType(int catalogTypeId)
