@@ -56,6 +56,21 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
             }
         }
 
+        //Sprint 1 - Replace the items in the catalog with items from another vendor. - Leon Roth
+
+        static IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands()
+        {
+            return new List<CatalogBrand>
+            {
+                new("Bear"),
+                new("Deer"),
+                new("Giraffe"),
+                new("Gorilla"),
+                new("Sloth")
+            };
+        }
+
+        /*
         static IEnumerable<CatalogBrand> GetPreconfiguredCatalogBrands()
         {
             return new List<CatalogBrand>
@@ -67,7 +82,23 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
                 new("Other")
             };
         }
+        */
 
+        //Sprint 1 - Replace the items in the catalog with items from another vendor. - Leon Roth
+
+
+        static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes()
+        {
+            return new List<CatalogType>
+            {
+                new("Drinkware"),
+                new("Apparel"),
+                new("Ornament"),
+                new("Plush")
+            };
+        }
+
+        /*
         static IEnumerable<CatalogType> GetPreconfiguredCatalogTypes()
         {
             return new List<CatalogType>
@@ -78,7 +109,30 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
                 new("USB Memory Stick")
             };
         }
+        */
 
+        //Sprint 1 - Replace the items in the catalog with items from another vendor. - Leon Roth
+
+        static IEnumerable<CatalogItem> GetPreconfiguredItems()
+        {
+            return new List<CatalogItem>
+            {
+                new(1,1, "Floral Bear Tumbler", "Floral Bear Tumbler", 29.99M,  "http://catalogbaseurltobereplaced/images/products/floralbeartumbler.png"),
+                new(3,1, "Wood Black Bear Ornament", "Wood Black Bear Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/blackbearornament.png"),
+                new(4,1, "Black Bear Plush", "Black Bear Plush", 24.99M,  "http://catalogbaseurltobereplaced/images/products/blackbearplush.png"),
+                new(2,2, "Adult Pudu T-shirt", "Adult Pudu T-shirt", 24.99M, "http://catalogbaseurltobereplaced/images/products/puduadultshirt.png"),
+                new(4,2, "Fawn Plush", "Fawn Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/fawnplush.png"),
+                new(3,3, "Wood Giraffe Ornament", "Wood Giraffe Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/giraffeornament.png"),
+                new(2,3, "Giraffe Umbrella Hat", "Giraffe Umbrella Hat",  9.99M, "http://catalogbaseurltobereplaced/images/products/giraffeumbrellahat.png"),
+                new(4,3, "Safari Giraffe Plush", "Safari Giraffe Plush", 14.99M, "http://catalogbaseurltobereplaced/images/products/safarigiraffeplush.png"),
+                new(4,4, "Gorilla Mom And Baby Plush", "Gorilla Mom And Baby Plush", 36.99M, "http://catalogbaseurltobereplaced/images/products/gorillamomandbabyplush.png"),
+                new(1,4, "Gorilla Shot Glass", "Gorilla Shot Glass", 8.99M, "http://catalogbaseurltobereplaced/images/products/gorillashotglass.png"),
+                new(3,5, "Wood Sloth Ornament", "Wood Sloth Ornament", 11.99M, "http://catalogbaseurltobereplaced/images/products/slothornament.png"),
+                new(4,5, "Hanging Sloth Plush", "Hanging Sloth Plush", 24.99M, "http://catalogbaseurltobereplaced/images/products/hangingslothplush.png")
+            };
+        }
+
+        /*
         static IEnumerable<CatalogItem> GetPreconfiguredItems()
         {
             return new List<CatalogItem>
@@ -97,5 +151,6 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
                 new(2,5, "Prism White TShirt", "Prism White TShirt", 12, "http://catalogbaseurltobereplaced/images/products/12.png")
             };
         }
+        */
     }
 }
