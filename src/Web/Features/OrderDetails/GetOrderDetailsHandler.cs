@@ -42,7 +42,14 @@ namespace Microsoft.eShopWeb.Web.Features.OrderDetails
                 }).ToList(),
                 OrderNumber = order.Id,
                 ShippingAddress = order.ShipToAddress,
-                Total = order.Total()
+                Total = order.Total(),
+
+                //Sprint 2 - Add a tax calculation and a Grand Total field to each order. - Leon Roth
+                TaxAmount = order.TaxAmount(),
+
+                //Sprint 2 - Add a tax calculation and a Grand Total field to each order. - Leon Roth
+                GrandTotal = order.GrandTotal(),
+
             };
         }
     }

@@ -7,6 +7,10 @@ namespace Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate
 {
     public class Order : BaseEntity, IAggregateRoot
     {
+
+        //Sprint 2 - Add a tax calculation and a Grand Total field to each order. - Leon Roth
+        public const decimal TAXMULTIPLIER = 0.0925M; //This is the sales tax rate applied to each order expressed as a decimal.
+
         private Order()
         {
             // required by EF
@@ -48,5 +52,24 @@ namespace Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate
             }
             return total;
         }
+
+        //Sprint 2 - Add a tax calculation and a Grand Total field to each order. - Leon Roth
+        public decimal TaxAmount()
+        {
+            decimal taxAmount = this.Total() * TAXMULTIPLIER;
+
+            return taxAmount;
+        }
+
+        //Sprint 2 - Add a tax calculation and a Grand Total field to each order. - Leon Roth
+        public decimal GrandTotal()
+        {
+            decimal grandTotal = this.Total() + this.TaxAmount();
+
+            return grandTotal;
+        }
+
+
+
     }
 }
